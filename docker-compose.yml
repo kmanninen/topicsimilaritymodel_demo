@@ -1,0 +1,29 @@
+version: "2.1"
+
+services:
+  jupyter:
+    container_name: jupyter-topicsimilaritymodel-demo
+    build: jupyter
+    ports:
+      - 8888:8888
+    volumes:
+      - "./demo:/home/jovyan"
+    command: "start-notebook.sh"
+    user: root
+    environment:
+      GRANT_SUDO: 'yes'
+
+  db:
+    image: mysql:5.7
+    container_name: "mysql-topicsimilaritymodel-demo"
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: D3m0D@atabase
+      MYSQL_USER: gravityuser
+      MYSQL_PASSWORD: D3m0D@atabase
+      MYSQL_DATABASE: wikipedia_movie_plots
+    ports:
+      - 3306:3306
+    volumes:
+      - "./demo/data:/docker-entrypoint-initdb.d"
+    command: --sql_mode=""
